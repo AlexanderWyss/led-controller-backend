@@ -30,9 +30,9 @@ export class ArduinoPort {
             const filteredPorts = ports.filter((port) => port.productId == "7523");
             if (filteredPorts.length > 0) {
                 this.port = new SerialPort(filteredPorts[0].comName, {baudRate: 115200});
-                this.port.on('error', error => {
+                this.port.on("error", (error) => {
                     this.setPort();
-                })
+                });
             }
         });
     }

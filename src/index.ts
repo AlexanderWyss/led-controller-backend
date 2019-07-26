@@ -1,14 +1,9 @@
 import {ArduinoPort} from "./ArduinoPort";
-const path = require("path");
 
 const express = require("express");
 const router = express.Router();
 
 const port = new ArduinoPort();
-
-router.get("/", (req: any, res: any, next: any) => {
-    res.sendFile(path.join(__dirname + "/public/index.html"));
-});
 
 router.get("/wave", (req: any, res: any, next: any) => {
     port.write("!WaveRun");
@@ -36,6 +31,10 @@ router.get("/chase", (req: any, res: any, next: any) => {
 });
 router.get("/sparkle", (req: any, res: any, next: any) => {
     port.write("!SparkleRun");
+    res.sendStatus(200);
+});
+router.get("/stop", (req: any, res: any, next: any) => {
+    port.write("!NeoStop");
     res.sendStatus(200);
 });
 
