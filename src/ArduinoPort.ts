@@ -8,12 +8,7 @@ export class ArduinoPort {
     }
 
     public write(command: string) {
-        try {
-            this.port.write(command, "utf8");
-        } catch (e) {
-            this.setPort();
-            console.log("error")
-        }
+        this.port.write(command, "utf8");
     }
 
     public read() {
@@ -21,8 +16,12 @@ export class ArduinoPort {
     }
 
     private setPort() {
+        if (this.port && this.port.isOpen) {
+            this.port.close();
+        }
         SerialPort.list().then((ports) => {
-            this.port = new SerialPort(ports.filter((port) => port.productId == "7523")[0].comName, { baudRate: 115200 }, ((error) => {this.setPort();console.log("error2"); }));
+            this.port = new SerialPort(ports.filter((port) => port.productId == "7523")[0].comName, { baudRate: 115200 });
+            this.port.on('error', error => { this.setPort(); })
         });
     }
 }
