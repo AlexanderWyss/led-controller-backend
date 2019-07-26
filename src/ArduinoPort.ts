@@ -4,8 +4,9 @@ export class ArduinoPort {
     public port: SerialPort;
 
     constructor() {
-        SerialPort.list().then((ports) => {console.log(ports); });
-        this.port = new SerialPort("COM7", { baudRate: 115200 });
+        SerialPort.list().then((ports) => {
+            this.port = new SerialPort(ports.filter((port) => port.productId == "7523")[0].comName, { baudRate: 115200 });
+        });
     }
 
     public write(command: string) {
