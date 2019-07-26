@@ -8,7 +8,7 @@ export class ArduinoPort {
     }
 
     public write(command: string) {
-        this.checkPort()
+        this.checkPort();
         this.port.write(command, "utf8");
     }
 
