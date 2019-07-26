@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const ArduinoPort = require("./ArduinoPort");
+
+const express = require('express');
+const router = express.Router();
+
+
+const port = new ArduinoPort();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/wave', function(req, res, next) {
+  port.write('!WaveRun')
+  res.send('Wave');
+});
+router.get('/rainbow', function(req, res, next) {
+  port.write('!RainbowRun')
+  res.send('Rainbow');
 });
 
 module.exports = router;
