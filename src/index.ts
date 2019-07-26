@@ -1,9 +1,15 @@
 import {ArduinoPort} from "./ArduinoPort";
+const path = require("path");
 
 const express = require("express");
 const router = express.Router();
 
 const port = new ArduinoPort();
+
+router.get("/", (req: any, res: any, next: any) => {
+    res.sendFile(path.join(__dirname + "/public/index.html"));
+});
+
 router.get("/wave", (req: any, res: any, next: any) => {
     port.write("!WaveRun");
     res.sendStatus(200);
