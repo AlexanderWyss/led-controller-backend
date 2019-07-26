@@ -20,7 +20,7 @@ export class ArduinoPort {
     }
 
     private setPort() {
-        if (this.port) {
+        if (this.port && this.port.isOpen) {
             this.port.close();
         }
         SerialPort.list().then((ports) => {
