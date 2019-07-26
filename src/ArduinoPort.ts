@@ -20,7 +20,9 @@ export class ArduinoPort {
     }
 
     private setPort() {
-        this.port.close();
+        if (this.port) {
+            this.port.close();
+        }
         SerialPort.list().then((ports) => {
             this.port = new SerialPort(ports.filter((port) => port.productId == "7523")[0].comName, { baudRate: 115200 });
         });
