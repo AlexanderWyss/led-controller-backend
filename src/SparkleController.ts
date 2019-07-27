@@ -10,7 +10,7 @@ export class SparkleController extends PatternController {
 
     public setFromQuery(req: Request): boolean {
         const query = req.query;
-        return this.setDelay(query.speed);
+        return this.setDelay(query.delay);
     }
 
     public setDelay(number: number): boolean {
