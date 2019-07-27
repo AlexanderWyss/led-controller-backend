@@ -12,7 +12,8 @@ export class WaveController extends PatternController {
         const query = req.query;
         return this.setSpeed(query.speed)
             && this.setSize(query.size)
-            && this.setReturn(query.returnValue);
+            && this.setReturn(query.returnValue)
+            && this.setColor(query.color);
     }
 
     public setSize(number: number): boolean {
@@ -27,7 +28,7 @@ export class WaveController extends PatternController {
         return this.setNumber("Return", number);
     }
 
-    public setColor(red: number, green: number, blue: number) {
-        this.setRGBColor(red, green, blue);
+    public setColor(color: string): boolean {
+        return this.setRGBColor(color);
     }
 }

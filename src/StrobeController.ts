@@ -12,7 +12,8 @@ export class StrobeController extends PatternController {
         const query = req.query;
         return this.setNumberOfFlashes(query.numberOfFlashes)
             && this.setFlashDelay(query.flashDelay)
-            && this.setFlashEndDelay(query.endDelay);
+            && this.setFlashEndDelay(query.endDelay)
+            && this.setColor(query.color);
     }
 
     public setNumberOfFlashes(number: number) {
@@ -27,7 +28,7 @@ export class StrobeController extends PatternController {
         return this.setNumber("EndDelay", number);
     }
 
-    public setColor(red: number, green: number, blue: number) {
-        this.setRGBColor(red, green, blue);
+    public setColor(color: string) {
+        return this.setRGBColor(color);
     }
 }

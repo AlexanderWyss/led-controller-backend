@@ -10,14 +10,14 @@ export class RunningController extends PatternController {
 
     public setFromQuery(req: Request): boolean {
         const query = req.query;
-        return this.setSpeed(query.speed);
+        return this.setSpeed(query.speed) && this.setColor(query.color);
     }
 
     public setSpeed(number: number): boolean {
         return this.setNumber("Speed", number);
     }
 
-    public setColor(red: number, green: number, blue: number) {
-        this.setRGBColor(red, green, blue);
+    public setColor(color: string) {
+        return this.setRGBColor(color);
     }
 }
