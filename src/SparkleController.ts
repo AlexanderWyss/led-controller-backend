@@ -2,18 +2,18 @@ import {Request} from "express";
 import {ArduinoPort} from "./ArduinoPort";
 import {PatternController} from "./PatternController";
 
-export class RainbowController extends PatternController {
+export class SparkleController extends PatternController {
 
     constructor(arduinoPort: ArduinoPort) {
-        super("Rainbow", arduinoPort);
+        super("Sparkle", arduinoPort);
     }
 
     public setFromQuery(req: Request): boolean {
         const query = req.query;
-        return this.setSpeed(query.speed);
+        return this.setDelay(query.speed);
     }
 
-    public setSpeed(number: number): boolean {
-        return this.setNumber("Speed", number);
+    public setDelay(number: number): boolean {
+        return this.setNumber("Delay", number);
     }
 }

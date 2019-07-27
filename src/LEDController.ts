@@ -1,5 +1,4 @@
-import {Request} from "express";
-import { ArduinoPort} from "./ArduinoPort";
+import {ArduinoPort} from "./ArduinoPort";
 
 export abstract class LEDController {
 
@@ -9,12 +8,8 @@ export abstract class LEDController {
     protected constructor(protected port: ArduinoPort) {
     }
 
-    public abstract setFromQuery(req: Request): boolean;
-
-    public abstract start(): void;
-
     public async delay(ms: number) {
-        return new Promise( (resolve) => setTimeout(resolve, ms) );
+        return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     protected sendCommand(command: string) {

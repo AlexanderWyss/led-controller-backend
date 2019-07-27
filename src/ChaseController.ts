@@ -2,10 +2,10 @@ import {Request} from "express";
 import {ArduinoPort} from "./ArduinoPort";
 import {PatternController} from "./PatternController";
 
-export class RainbowController extends PatternController {
+export class ChaseController extends PatternController {
 
     constructor(arduinoPort: ArduinoPort) {
-        super("Rainbow", arduinoPort);
+        super("Chase", arduinoPort);
     }
 
     public setFromQuery(req: Request): boolean {

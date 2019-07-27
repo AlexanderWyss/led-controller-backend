@@ -1,7 +1,12 @@
 import {ArduinoPort} from "./ArduinoPort";
+import {ChaseController} from "./ChaseController";
 import {GeneralController} from "./GeneralController";
-import {LEDController} from "./LEDController";
+import {PatternController} from "./PatternController";
 import {RainbowController} from "./RainbowController";
+import {RiderController} from "./RiderController";
+import {RunningController} from "./RunningController";
+import {SparkleController} from "./SparkleController";
+import {StrobeController} from "./StrobeController";
 import {WaveController} from "./WaveController";
 
 const express = require("express");
@@ -9,49 +14,36 @@ const router = express.Router();
 
 const arduinoPort = ArduinoPort.get();
 
-function getController(pattern: string) {
-    let controller: LEDController;
-    switch (pattern) {
-        case "wave":
-            controller = new WaveController(arduinoPort);
-            break;
-        case "rainbow":
-            controller = new RainbowController(arduinoPort);
-            break;
-        case "rider":
-            break;
-        case "strobe":
-            break;
-        case "running":
-            break;
-        case "chase":
-            break;
-        case "sparkle":
-            break;
-    }
-    return controller;
+const patternController = [
+    new WaveController(arduinoPort), new RainbowController(arduinoPort), new RiderController(arduinoPort),
+    new StrobeController(arduinoPort), new RunningController(arduinoPort), new ChaseController(arduinoPort),
+    new SparkleController(arduinoPort)
+];
+
+const generalController = new GeneralController(arduinoPort);
+
+function getPatternController(pattern: string): PatternController {
+    return patternController.filter((controller) => controller.name.toLowerCase() == pattern.toLowerCase())[0];
 }
 
 router.get("/api/options", (req: any, res: any, next: any) => {
     const pattern = req.query.pattern;
-    const controller = getController(pattern);
+    const controller = getPatternController(pattern);
     controller.setFromQuery(req);
     res.sendStatus(200);
 });
 router.get("/api/start", (req: any, res: any, next: any) => {
     const pattern = req.query.pattern;
-    const controller = getController(pattern);
+    const controller = getPatternController(pattern);
     controller.start();
     res.sendStatus(200);
 });
 router.get("/api/stop", (req: any, res: any, next: any) => {
-    const controller = new GeneralController(arduinoPort);
-    controller.stop();
+    generalController.stop();
     res.sendStatus(200);
 });
 router.get("/api/alloff", (req: any, res: any, next: any) => {
-    const controller = new GeneralController(arduinoPort);
-    controller.allOff();
+    generalController.allOff();
     res.sendStatus(200);
 });
 module.exports = router;
