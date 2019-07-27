@@ -11,7 +11,8 @@ export class ArduinoPort {
     private static PORT: ArduinoPort;
     public port: SerialPort;
 
-    constructor() {
+    private constructor() {
+        console.log("constr");
         this.setPort();
     }
 
@@ -21,7 +22,7 @@ export class ArduinoPort {
     }
 
     public read() {
-        return this.port.read();
+        this.port.read();
     }
 
     private checkPort() {
@@ -35,14 +36,17 @@ export class ArduinoPort {
             this.port.close();
         }
         SerialPort.list().then((ports) => {
-            console.log(ports);
+            console.debug(ports);
             const filteredPorts = ports.filter((port) => port.productId == "7523");
             if (filteredPorts.length > 0) {
-                console.log(filteredPorts[0].comName);
+                console.debug(filteredPorts[0].comName);
                 this.port = new SerialPort(filteredPorts[0].comName, {baudRate: 115200});
                 this.port.on("error", (error) => {
-                    console.log(error);
-                    this.setPort();
+                    console.error(error);
+                    if (this.port.isOpen) {
+                        this.port.close();
+                        this.setPort();
+                    }
                 });
             }
         });

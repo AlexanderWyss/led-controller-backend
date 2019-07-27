@@ -1,10 +1,11 @@
 import {Request} from "express";
+import {ArduinoPort} from "./ArduinoPort";
 import {LEDController} from "./LEDController";
 
 export class RainbowController extends LEDController {
 
-    constructor() {
-        super();
+    constructor(arduinoPort: ArduinoPort) {
+        super(arduinoPort);
     }
 
     public setFromQuery(req: Request): boolean {

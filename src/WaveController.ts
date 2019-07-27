@@ -1,16 +1,17 @@
 import {Request} from "express";
+import {ArduinoPort} from "./ArduinoPort";
 import {LEDController} from "./LEDController";
 
 export class WaveController extends LEDController {
 
-    constructor() {
-        super();
+    constructor(arduinoPort: ArduinoPort) {
+        super(arduinoPort);
     }
 
     public setFromQuery(req: Request): boolean {
         const query = req.query;
-        return this.setSize(query.size)
-            && this.setSpeed(query.speed)
+        return this.setSpeed(query.speed)
+            && this.setSize(query.size)
             && this.setReturn(query.returnValue);
 
     }

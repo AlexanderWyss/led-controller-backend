@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@serialport/stream": "latest",
+    "@types/cors": "^2.8.5",
     "@types/serialport": "^7.0.4",
     "@types/socket.io": "^2.1.2",
     "cookie-parser": "~1.4.4",

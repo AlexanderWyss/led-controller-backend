@@ -3,19 +3,34 @@ import { ArduinoPort} from "./ArduinoPort";
 
 export abstract class LEDController {
 
-    protected port: ArduinoPort;
+    private queue: string[] = [];
+    private currentCommand: Promise<void>;
 
-    protected constructor() {
-        this.port = ArduinoPort.get();
+    protected constructor(protected port: ArduinoPort) {
     }
 
     public abstract setFromQuery(req: Request): boolean;
 
     public abstract start(): void;
 
-    protected sendCommand(command: string) {
-        console.log(command);
-        this.port.write(command);
+    public async delay(ms: number) {
+        return new Promise( (resolve) => setTimeout(resolve, ms) );
     }
 
+    protected sendCommand(command: string) {
+        this.queue.push(command);
+        if (!this.currentCommand) {
+            this.currentCommand = this.commandFromQueue();
+            this.currentCommand.finally(() => this.currentCommand = undefined);
+        }
+    }
+
+    private async commandFromQueue() {
+        while (this.queue.length > 0) {
+            const command = this.queue.shift();
+            console.debug(command);
+            this.port.write(command);
+            await this.delay(150);
+        }
+    }
 }
