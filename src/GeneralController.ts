@@ -19,4 +19,8 @@ export class GeneralController extends LEDController {
     public setNumberOfLeds(number: number) {
         this.sendCommand("!NeoNum" + number);
     }
+
+    public setPin(pin: string) {
+        this.sendCommand("!NeoPin" + pin);
+    }
 }
