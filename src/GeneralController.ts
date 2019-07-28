@@ -15,4 +15,8 @@ export class GeneralController extends LEDController {
         this.stop();
         this.sendCommand("!NeoAllOff");
     }
+
+    public setNumberOfLeds(number: number) {
+        this.sendCommand("!NeoNum" + number);
+    }
 }

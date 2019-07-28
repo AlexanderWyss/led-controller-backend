@@ -32,6 +32,10 @@ router.get("/api/options", (req: any, res: any, next: any) => {
     controller.setFromQuery(req);
     res.sendStatus(200);
 });
+router.get("/api/options/leds/set", (req: any, res: any, next: any) => {
+    generalController.setNumberOfLeds(req.query.leds);
+    res.sendStatus(200);
+});
 router.get("/api/start", (req: any, res: any, next: any) => {
     const pattern = req.query.pattern;
     const controller = getPatternController(pattern);
