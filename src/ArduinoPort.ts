@@ -28,6 +28,9 @@ export class ArduinoPort {
     }
 
     public setPort(portName: string) {
+        if (portName == "autoselect") {
+            portName = undefined;
+        }
         this.selectedPort = portName;
         this.createPort();
     }
