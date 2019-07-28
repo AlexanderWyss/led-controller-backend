@@ -46,4 +46,11 @@ router.get("/api/alloff", (req: any, res: any, next: any) => {
     generalController.allOff();
     res.sendStatus(200);
 });
+router.get("/api/serialport/get", (req: any, res: any, next: any) => {
+    arduinoPort.getSerialPorts().then((ports) => res.send(ports));
+});
+router.get("/api/serialport/set", (req: any, res: any, next: any) => {
+    arduinoPort.setPort(req.query.name);
+    res.sendStatus(200);
+});
 module.exports = router;

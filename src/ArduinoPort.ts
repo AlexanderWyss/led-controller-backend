@@ -1,6 +1,7 @@
 import SerialPort = require("serialport");
 
 export class ArduinoPort {
+
     public static get(): ArduinoPort {
         if (!ArduinoPort.PORT) {
             ArduinoPort.PORT = new ArduinoPort();
@@ -9,11 +10,12 @@ export class ArduinoPort {
     }
 
     private static PORT: ArduinoPort;
+    public selectedPort: string;
     public port: SerialPort;
 
     private constructor() {
         console.log("constr");
-        this.setPort();
+        this.createPort();
     }
 
     public write(command: string) {
@@ -25,30 +27,52 @@ export class ArduinoPort {
         this.port.read();
     }
 
+    public setPort(portName: string) {
+        this.selectedPort = portName;
+        this.createPort();
+    }
+
+    public getSerialPorts(): Promise<SerialPort.PortInfo[]> {
+        return SerialPort.list();
+    }
+
     private checkPort() {
         if (!this.port || !this.port.isOpen) {
-            this.setPort();
+            this.createPort();
         }
     }
 
-    private setPort() {
+    private createPort() {
+        this.closePort();
+        if (this.selectedPort != undefined) {
+            this.port = this.createSerialPort(this.selectedPort);
+        } else {
+            SerialPort.list().then((ports) => {
+                console.debug(ports);
+                const filteredPorts = ports.filter((port) => port.productId == "7523");
+                if (filteredPorts.length > 0) {
+                    this.port = this.createSerialPort(filteredPorts[0].comName);
+                }
+            });
+        }
+    }
+
+    private createSerialPort(portName: string) {
+        console.debug(portName);
+        const port = new SerialPort(portName, {baudRate: 115200});
+        port.on("error", (error) => {
+            console.error(error);
+            if (this.port.isOpen) {
+                this.port.close();
+                this.createPort();
+            }
+        });
+        return port;
+    }
+
+    private closePort() {
         if (this.port && this.port.isOpen) {
             this.port.close();
         }
-        SerialPort.list().then((ports) => {
-            console.debug(ports);
-            const filteredPorts = ports.filter((port) => port.productId == "7523");
-            if (filteredPorts.length > 0) {
-                console.debug(filteredPorts[0].comName);
-                this.port = new SerialPort(filteredPorts[0].comName, {baudRate: 115200});
-                this.port.on("error", (error) => {
-                    console.error(error);
-                    if (this.port.isOpen) {
-                        this.port.close();
-                        this.setPort();
-                    }
-                });
-            }
-        });
     }
 }
