@@ -8,6 +8,11 @@ import {RunningController} from "./RunningController";
 import {SparkleController} from "./SparkleController";
 import {StrobeController} from "./StrobeController";
 import {WaveController} from "./WaveController";
+import * as bleno from 'bleno';
+
+const uuidGen = require('uuid/v5');
+const uuid = 'de7daa74-9126-494c-b277-9ca4c0944c7e';
+
 
 const express = require("express");
 const router = express.Router();
@@ -26,13 +31,11 @@ function getPatternController(pattern: string): PatternController {
     return patternController.filter((controller) => controller.name.toLowerCase() == pattern.toLowerCase())[0];
 }
 
-interface Operation {
-    (query: any): Promise<any>;
-}
+type Operation = (query: any) => Promise<any>;
 
 interface Control {
-    name: string,
-    operation: Operation
+    name: string;
+    operation: Operation;
 }
 
 const controls: Control[] = [
@@ -84,10 +87,53 @@ const controls: Control[] = [
     }
 ];
 
-for (const route of controls) {
-    router.get(route.name, (req: any, res: any, next: any) => {
-        route.operation(req.query).then((returnValue) => res.send(returnValue));
+const characteristics = [];
 
-    });
+function genUuid(name: string) {
+    return uuidGen(name, uuid);
 }
+
+for (const control of controls) {
+    router.get(control.name, (req: any, res: any, next: any) => {
+        control.operation(req.query).then((returnValue) => res.send(returnValue));
+    });
+
+    console.log(control.name + " : " + genUuid(control.name));
+    characteristics.push(new bleno.Characteristic({
+        uuid: genUuid(control.name),
+        properties: ['read', 'write'],
+        onWriteRequest: (data, offset, withoutResponse, callback) => {
+            control.operation(JSON.parse(data.toString())).then(empty => callback(bleno.Characteristic.RESULT_SUCCESS));
+        },
+        onReadRequest: (offset, callback) => {
+            control.operation({}).then(value => callback(bleno.Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(value))));
+        }
+    }));
+}
+
+const primaryService = new bleno.PrimaryService({
+    uuid: '190F',
+    characteristics: characteristics
+});
+
+
+bleno.on('stateChange', function (state) {
+    console.log('on -> stateChange: ' + state);
+
+    if (state === 'poweredOn') {
+        bleno.startAdvertising('Battery', [primaryService.uuid]);
+    } else {
+        bleno.stopAdvertising();
+    }
+});
+
+bleno.on('advertisingStart', function (error) {
+    console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
+
+    if (!error) {
+        bleno.setServices([primaryService], function (error) {
+            console.log('setServices: ' + (error ? 'error ' + error : 'success'));
+        });
+    }
+});
 module.exports = router;
