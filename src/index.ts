@@ -8,8 +8,9 @@ import {RunningController} from "./RunningController";
 import {SparkleController} from "./SparkleController";
 import {StrobeController} from "./StrobeController";
 import {WaveController} from "./WaveController";
-import * as bleno from 'bleno';
+import {Characteristic, PrimaryService} from 'bleno';
 
+const bleno = require('bleno');
 const uuidGen = require('uuid/v5');
 const uuid = 'de7daa74-9126-494c-b277-9ca4c0944c7e';
 
@@ -99,25 +100,25 @@ for (const control of controls) {
     });
 
     console.log(control.name + " : " + genUuid(control.name));
-    characteristics.push(new bleno.Characteristic({
+    characteristics.push(new Characteristic({
         uuid: genUuid(control.name),
         properties: ['read', 'write'],
         onWriteRequest: (data, offset, withoutResponse, callback) => {
-            control.operation(JSON.parse(data.toString())).then(empty => callback(bleno.Characteristic.RESULT_SUCCESS));
+            control.operation(JSON.parse(data.toString())).then(empty => callback(Characteristic.RESULT_SUCCESS));
         },
         onReadRequest: (offset, callback) => {
-            control.operation({}).then(value => callback(bleno.Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(value))));
+            control.operation({}).then(value => callback(Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(value))));
         }
     }));
 }
 
-const primaryService = new bleno.PrimaryService({
+const primaryService = new PrimaryService({
     uuid: '190F',
     characteristics: characteristics
 });
 
 
-bleno.on('stateChange', function (state) {
+bleno.on('stateChange', (state: any) => {
     console.log('on -> stateChange: ' + state);
 
     if (state === 'poweredOn') {
@@ -127,11 +128,11 @@ bleno.on('stateChange', function (state) {
     }
 });
 
-bleno.on('advertisingStart', function (error) {
+bleno.on('advertisingStart', (error: any) => {
     console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
 
     if (!error) {
-        bleno.setServices([primaryService], function (error) {
+        bleno.setServices([primaryService], (error: any) => {
             console.log('setServices: ' + (error ? 'error ' + error : 'success'));
         });
     }
