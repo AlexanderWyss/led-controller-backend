@@ -122,7 +122,7 @@ bleno.on('stateChange', (state: any) => {
     console.log('on -> stateChange: ' + state);
 
     if (state === 'poweredOn') {
-        bleno.startAdvertising('Battery', [primaryService.uuid]);
+        bleno.startAdvertising('LED', [primaryService.uuid]);
     } else {
         bleno.stopAdvertising();
     }
