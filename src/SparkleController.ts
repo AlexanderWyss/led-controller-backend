@@ -1,4 +1,3 @@
-import {Request} from "express";
 import {ArduinoPort} from "./ArduinoPort";
 import {PatternController} from "./PatternController";
 
@@ -8,8 +7,7 @@ export class SparkleController extends PatternController {
         super("Sparkle", arduinoPort);
     }
 
-    public setFromQuery(req: Request): boolean {
-        const query = req.query;
+    public setFromQuery(query: any): boolean {
         return this.setDelay(query.delay);
     }
 

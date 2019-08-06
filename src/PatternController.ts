@@ -1,4 +1,3 @@
-import {Request} from "express";
 import {ArduinoPort} from "./ArduinoPort";
 import {LEDController} from "./LEDController";
 
@@ -8,7 +7,7 @@ export abstract class PatternController extends LEDController {
         super(port);
     }
 
-    public abstract setFromQuery(req: Request): boolean;
+    public abstract setFromQuery(query: any): boolean;
 
     public start(): void {
         this.sendCommand("!" + this.name + "Run");

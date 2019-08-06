@@ -26,39 +26,68 @@ function getPatternController(pattern: string): PatternController {
     return patternController.filter((controller) => controller.name.toLowerCase() == pattern.toLowerCase())[0];
 }
 
-router.get("/api/options", (req: any, res: any, next: any) => {
-    const pattern = req.query.pattern;
-    const controller = getPatternController(pattern);
-    controller.setFromQuery(req);
-    res.sendStatus(200);
-});
-router.get("/api/options/pin/set", (req: any, res: any, next: any) => {
-    generalController.setPin(req.query.pin);
-    res.sendStatus(200);
-});
-router.get("/api/options/leds/set", (req: any, res: any, next: any) => {
-    generalController.setNumberOfLeds(req.query.leds);
-    res.sendStatus(200);
-});
-router.get("/api/start", (req: any, res: any, next: any) => {
-    const pattern = req.query.pattern;
-    const controller = getPatternController(pattern);
-    controller.start();
-    res.sendStatus(200);
-});
-router.get("/api/stop", (req: any, res: any, next: any) => {
-    generalController.stop();
-    res.sendStatus(200);
-});
-router.get("/api/alloff", (req: any, res: any, next: any) => {
-    generalController.allOff();
-    res.sendStatus(200);
-});
-router.get("/api/serialport/get", (req: any, res: any, next: any) => {
-    arduinoPort.getSerialPorts().then((ports) => res.send({serialports: ports}));
-});
-router.get("/api/serialport/set", (req: any, res: any, next: any) => {
-    arduinoPort.setPort(req.query.name);
-    res.sendStatus(200);
-});
+interface Operation {
+    (query: any): Promise<any>;
+}
+
+interface Control {
+    name: string,
+    operation: Operation
+}
+
+const controls: Control[] = [
+    {
+        name: "/api/options",
+        operation: async (query) => {
+            const pattern = query.pattern;
+            const controller = getPatternController(pattern);
+            controller.setFromQuery(query);
+        }
+    }, {
+        name: "/api/options/pin/set",
+        operation: async (query) => {
+            generalController.setPin(query.pin);
+        }
+    }, {
+        name: "/api/options/leds/set",
+        operation: async (query) => {
+            generalController.setNumberOfLeds(query.leds);
+        }
+    }, {
+        name: "/api/start",
+        operation: async (query) => {
+            const pattern = query.pattern;
+            const controller = getPatternController(pattern);
+            controller.start();
+        }
+    }, {
+        name: "/api/stop",
+        operation: async (query) => {
+            generalController.stop();
+        }
+    }, {
+        name: "/api/alloff",
+        operation: async (query) => {
+            generalController.allOff();
+        }
+    }, {
+        name: "/api/serialport/get",
+        operation: async (query) => {
+            const ports = await arduinoPort.getSerialPorts();
+            return {serialports: ports};
+        }
+    }, {
+        name: "/api/serialport/set",
+        operation: async (query) => {
+            arduinoPort.setPort(query.name);
+        }
+    }
+];
+
+for (const route of controls) {
+    router.get(route.name, (req: any, res: any, next: any) => {
+        route.operation(req.query).then((returnValue) => res.send(returnValue));
+
+    });
+}
 module.exports = router;

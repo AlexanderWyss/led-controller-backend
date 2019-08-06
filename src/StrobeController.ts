@@ -1,4 +1,3 @@
-import {Request} from "express";
 import {ArduinoPort} from "./ArduinoPort";
 import {PatternController} from "./PatternController";
 
@@ -8,8 +7,7 @@ export class StrobeController extends PatternController {
         super("Strobe", arduinoPort);
     }
 
-    public setFromQuery(req: Request): boolean {
-        const query = req.query;
+    public setFromQuery(query: any): boolean {
         return this.setNumberOfFlashes(query.numberOfFlashes)
             && this.setFlashDelay(query.flashDelay)
             && this.setFlashEndDelay(query.endDelay)

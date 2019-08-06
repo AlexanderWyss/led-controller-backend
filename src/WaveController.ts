@@ -1,4 +1,3 @@
-import {Request} from "express";
 import {ArduinoPort} from "./ArduinoPort";
 import {PatternController} from "./PatternController";
 
@@ -8,8 +7,7 @@ export class WaveController extends PatternController {
         super("Wave", arduinoPort);
     }
 
-    public setFromQuery(req: Request): boolean {
-        const query = req.query;
+    public setFromQuery(query: any): boolean {
         return this.setSpeed(query.speed)
             && this.setSize(query.size)
             && this.setReturn(query.returnValue)
