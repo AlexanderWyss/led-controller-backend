@@ -16,7 +16,10 @@ export abstract class LEDController {
         this.queue.push(command);
         if (!this.currentCommand) {
             this.currentCommand = this.commandFromQueue();
-            this.currentCommand.finally(() => this.currentCommand = undefined);
+            this.currentCommand.then(() => this.currentCommand = undefined).catch((error) => {
+                console.log(error);
+                this.currentCommand = undefined;
+            });
         }
     }
 
