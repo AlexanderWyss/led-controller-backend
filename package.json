@@ -13,7 +13,6 @@
   "dependencies": {
     "@abandonware/bleno": "^0.5.1-0",
     "@serialport/stream": "latest",
-    "@types/bleno": "^0.4.1",
     "@types/cors": "^2.8.5",
     "@types/serialport": "^7.0.4",
     "@types/socket.io": "^2.1.2",

@@ -8,7 +8,7 @@ import {RunningController} from "./RunningController";
 import {SparkleController} from "./SparkleController";
 import {StrobeController} from "./StrobeController";
 import {WaveController} from "./WaveController";
-import {Characteristic, PrimaryService} from 'bleno';
+import {Characteristic, PrimaryService} from '@abandonware/bleno';
 
 const bleno = require('@abandonware/bleno');
 const uuidGen = require('uuid/v5');
