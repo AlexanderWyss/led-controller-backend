@@ -2,7 +2,7 @@ import {Operation, OperationType} from '../operation/Operation';
 
 export abstract class Manager {
 
-    public mapControls(operations: Operation[]) {
+    public mapOperations(operations: Operation[]) {
         for (const operation of operations) {
             switch (operation.type) {
                 case OperationType.READ:

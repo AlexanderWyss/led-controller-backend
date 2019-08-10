@@ -8,9 +8,9 @@ const router = express.Router();
 
 const operations = Operation.getOperations();
 const httpManager = new HttpManager(router);
-httpManager.mapControls(operations);
+httpManager.mapOperations(operations);
 
 const bluetoothManager = new BluetoothManager(bleno);
-bluetoothManager.mapControls(operations);
+bluetoothManager.mapOperations(operations);
 
 module.exports = router;
