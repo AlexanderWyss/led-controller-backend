@@ -113,7 +113,7 @@ for (const control of controls) {
 }
 
 const primaryService = new PrimaryService({
-    uuid: '190F',
+    uuid: uuid,
     characteristics: characteristics
 });
 
