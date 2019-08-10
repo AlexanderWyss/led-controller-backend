@@ -1,12 +1,12 @@
 import {BluetoothManager} from "./manager/BluetoothManager";
 import {HttpManager} from "./manager/HttpManager";
-import {Operation} from "./operation/Operation";
+import {OperationService} from './operation/OperationService';
 
 const bleno = require("@abandonware/bleno");
 const express = require("express");
 const router = express.Router();
 
-const operations = Operation.getOperations();
+const operations = OperationService.getOperations();
 const httpManager = new HttpManager(router);
 httpManager.mapOperations(operations);
 

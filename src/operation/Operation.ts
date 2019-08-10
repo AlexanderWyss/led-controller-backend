@@ -1,14 +1,6 @@
 import {ArduinoPort} from "../ArduinoPort";
 import {GeneralController} from "../controller/GeneralController";
 import {PatternController} from "../controller/PatternController";
-import {AllOffOperation} from "./AllOffOperation";
-import {LedsSetOperation} from "./LedsSetOperation";
-import {OptionsOperation} from "./OptionsOperation";
-import {PinSetOperation} from "./PinSetOperation";
-import {SerialportGetOperation} from "./SerialportGetOperation";
-import {SerialportSetOperation} from "./SerialportSetOperation";
-import {StartOperation} from "./StartOperation";
-import {StopOperation} from "./StopOperation";
 import {PatternService} from '../controller/PatternService';
 
 export enum OperationType {
@@ -26,13 +18,6 @@ export abstract class Operation {
     }
 
     public readonly name: string;
-
-    public static getOperations(): Operation[] {
-        return [
-            new AllOffOperation(), new LedsSetOperation(), new OptionsOperation(), new PinSetOperation(),
-            new SerialportGetOperation(), new SerialportSetOperation(), new StartOperation(), new StopOperation()
-        ];
-    }
 
     public abstract async execute(data?: any): Promise<any>;
 
