@@ -108,6 +108,7 @@ for (const control of controls) {
             control.operation(JSON.parse(data.toString())).then((empty) => callback(Characteristic.RESULT_SUCCESS));
         },
         onReadRequest: (offset, callback) => {
+            console.log('test2');
             control.operation({}).then((value) => {
                 const result = JSON.stringify(value);
                 console.log(result);
