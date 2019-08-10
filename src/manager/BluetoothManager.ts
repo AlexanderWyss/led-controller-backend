@@ -34,7 +34,7 @@ export class BluetoothManager extends Manager {
             properties: ["write"],
             onWriteRequest: (data, offset, withoutResponse, callback) => {
                 console.log(data.toString());
-                operation.execute(JSON.parse(data.toString())).then((empty) => callback(Characteristic.RESULT_SUCCESS));
+                return operation.execute(JSON.parse(data.toString())).then((empty) => callback(Characteristic.RESULT_SUCCESS));
             },
         }));
     }
