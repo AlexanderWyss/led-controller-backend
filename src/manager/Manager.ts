@@ -1,4 +1,4 @@
-import {Operation, OperationType} from '../operation/Operation';
+import {Operation, OperationType} from "../operation/Operation";
 
 export abstract class Manager {
 

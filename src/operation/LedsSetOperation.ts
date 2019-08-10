@@ -1,9 +1,9 @@
-import {Operation, OperationType} from './Operation';
+import {Operation, OperationType} from "./Operation";
 
 export class LedsSetOperation extends Operation {
 
     constructor() {
-        super('leds/set', OperationType.WRITE);
+        super("leds/set", OperationType.WRITE);
     }
 
     public async execute(data?: any): Promise<void> {

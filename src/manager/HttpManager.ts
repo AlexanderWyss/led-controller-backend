@@ -1,6 +1,6 @@
-import {Router} from 'express';
-import {Operation} from '../operation/Operation';
-import {Manager} from './Manager';
+import {Router} from "express";
+import {Operation} from "../operation/Operation";
+import {Manager} from "./Manager";
 
 export class HttpManager extends Manager {
 

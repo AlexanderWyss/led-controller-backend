@@ -1,9 +1,9 @@
-import {Operation, OperationType} from './Operation';
+import {Operation, OperationType} from "./Operation";
 
 export class SerialportGetOperation extends Operation {
 
     constructor() {
-        super('serialport/get', OperationType.READ);
+        super("serialport/get", OperationType.READ);
     }
 
     public async execute(): Promise<any> {

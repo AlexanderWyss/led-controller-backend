@@ -1,6 +1,6 @@
 import {Bleno, Characteristic, PrimaryService} from "@abandonware/bleno";
-import {Operation} from '../operation/Operation';
-import {Manager} from './Manager';
+import {Operation} from "../operation/Operation";
+import {Manager} from "./Manager";
 
 const uuidGen = require("uuid/v5");
 
@@ -16,10 +16,10 @@ export class BluetoothManager extends Manager {
     public read(operation: Operation): void {
         const uuid = this.genUuid(operation);
         this.characteristics.push(new Characteristic({
-            uuid: uuid,
+            uuid,
             properties: ["read"],
             onReadRequest: (offset, callback) => {
-                this.manageBuffer(offset, operation.name, operation.execute({})).then(value => {
+                this.manageBuffer(offset, operation.name, operation.execute({})).then((value) => {
                     console.log(value);
                     return callback(Characteristic.RESULT_SUCCESS, Buffer.from(value));
                 });
@@ -30,7 +30,7 @@ export class BluetoothManager extends Manager {
     public write(operation: Operation): void {
         const uuid = this.genUuid(operation);
         this.characteristics.push(new Characteristic({
-            uuid: uuid,
+            uuid,
             properties: ["write"],
             onWriteRequest: (data, offset, withoutResponse, callback) => {
                 console.log(data.toString());
@@ -68,17 +68,17 @@ export class BluetoothManager extends Manager {
 
     private async manageBuffer(offset: number, name: string, promise: Promise<any>): Promise<string> {
         if (offset == 0 || this.bufferMap[name] === undefined) {
-            return await promise.then(value => {
+            return await promise.then((value) => {
                 this.bufferMap[name] = JSON.stringify(value);
                 return this.bufferMap[name];
             });
         } else {
-            return (<string>this.bufferMap[name]).substr(offset);
+            return (this.bufferMap[name] as string).substr(offset);
         }
     }
 
     private genUuid(operation: Operation) {
-        let uuid = uuidGen(name, BluetoothManager.UUID);
+        const uuid = uuidGen(name, BluetoothManager.UUID);
         console.log(operation.name + " : " + uuid);
         return uuid;
     }

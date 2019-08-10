@@ -1,9 +1,9 @@
-import {Operation, OperationType} from './Operation';
+import {Operation, OperationType} from "./Operation";
 
 export class StopOperation extends Operation {
 
     constructor() {
-        super('stop', OperationType.READ);
+        super("stop", OperationType.READ);
     }
 
     public async execute(): Promise<void> {

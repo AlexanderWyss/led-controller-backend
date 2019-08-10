@@ -1,6 +1,6 @@
-import {HttpManager} from './manager/HttpManager';
-import {BluetoothManager} from './manager/BluetoothManager';
-import {Operation} from './operation/Operation';
+import {BluetoothManager} from "./manager/BluetoothManager";
+import {HttpManager} from "./manager/HttpManager";
+import {Operation} from "./operation/Operation";
 
 const bleno = require("@abandonware/bleno");
 const express = require("express");

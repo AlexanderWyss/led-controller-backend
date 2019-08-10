@@ -1,25 +1,10 @@
 import {ArduinoPort} from "../ArduinoPort";
 import {LEDController} from "./LEDController";
-import {WaveController} from './WaveController';
-import {RainbowController} from './RainbowController';
-import {RiderController} from './RiderController';
-import {StrobeController} from './StrobeController';
-import {RunningController} from './RunningController';
-import {ChaseController} from './ChaseController';
-import {SparkleController} from './SparkleController';
 
 export abstract class PatternController extends LEDController {
 
     protected constructor(public name: string, protected port: ArduinoPort) {
         super(port);
-    }
-
-    public static getPatternControllers(arduinoPort: ArduinoPort) {
-        return [
-            new WaveController(arduinoPort), new RainbowController(arduinoPort), new RiderController(arduinoPort),
-            new StrobeController(arduinoPort), new RunningController(arduinoPort), new ChaseController(arduinoPort),
-            new SparkleController(arduinoPort)
-        ];
     }
 
     public abstract setFromQuery(query: any): boolean;
