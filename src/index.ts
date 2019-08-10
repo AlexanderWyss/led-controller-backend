@@ -76,6 +76,7 @@ const controls: Control[] = [
     }, {
         name: "/api/serialport/get",
         operation: async (query) => {
+            console.log("test");
             const ports = await arduinoPort.getSerialPorts();
             return {serialports: ports};
         }
