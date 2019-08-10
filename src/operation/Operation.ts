@@ -12,12 +12,12 @@ export abstract class Operation {
     private static ARDUINO_PORT = ArduinoPort.get();
     private static PATTERN_CONTROLLERS = PatternService.getPatternControllers(Operation.ARDUINO_PORT);
     private static GENERAL_CONTROLLER = new GeneralController(Operation.ARDUINO_PORT);
+    public readonly name: string;
 
     protected constructor(name: string, public readonly type: OperationType) {
         this.name = "/api/" + name;
     }
 
-    public readonly name: string;
 
     public abstract async execute(data?: any): Promise<any>;
 

@@ -78,7 +78,7 @@ export class BluetoothManager extends Manager {
     }
 
     private genUuid(operation: Operation) {
-        const uuid = uuidGen(name, BluetoothManager.UUID);
+        const uuid = uuidGen(operation.name, BluetoothManager.UUID);
         console.log(operation.name + " : " + uuid);
         return uuid;
     }
