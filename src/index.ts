@@ -10,7 +10,7 @@ import {StrobeController} from "./StrobeController";
 import {WaveController} from "./WaveController";
 import {Characteristic, PrimaryService} from 'bleno';
 
-const bleno = require('bleno');
+const bleno = require('@abandonware/bleno');
 const uuidGen = require('uuid/v5');
 const uuid = 'de7daa74-9126-494c-b277-9ca4c0944c7e';
 
