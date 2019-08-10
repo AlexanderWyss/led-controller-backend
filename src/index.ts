@@ -104,11 +104,14 @@ for (const control of controls) {
         uuid: genUuid(control.name),
         properties: ["read", "write"],
         onWriteRequest: (data, offset, withoutResponse, callback) => {
+            console.log('test3');
+            console.log(offset);
             console.log(data.toString());
             control.operation(JSON.parse(data.toString())).then((empty) => callback(Characteristic.RESULT_SUCCESS));
         },
         onReadRequest: (offset, callback) => {
             console.log('test2');
+            console.log(offset);
             control.operation({}).then((value) => {
                 const result = JSON.stringify(value);
                 console.log(result);
