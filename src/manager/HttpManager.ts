@@ -16,7 +16,7 @@ export class HttpManager extends Manager {
 
     public write(operation: Operation): void {
         this.router.get(operation.name, (req: any, res: any, next: any) => {
-            operation.execute(req.query);
+            operation.execute(req.query).then((val) => res.send());
         });
     }
 
