@@ -76,7 +76,6 @@ const controls: Control[] = [
     }, {
         name: "/api/serialport/get",
         operation: async (query) => {
-            console.log("test");
             const ports = await arduinoPort.getSerialPorts();
             return {serialports: ports};
         }
@@ -106,15 +105,10 @@ for (const control of controls) {
         uuid: genUuid(control.name),
         properties: ["read", "write"],
         onWriteRequest: (data, offset, withoutResponse, callback) => {
-            console.log('test3');
-            console.log(offset);
             console.log(data.toString());
             control.operation(JSON.parse(data.toString())).then((empty) => callback(Characteristic.RESULT_SUCCESS));
         },
         onReadRequest: (offset, callback) => {
-            console.log('test2');
-            console.log(offset);
-
             async function manageBuffer(offset: number, callback: (result: number, data?: Buffer) => void, name: string, promise: Promise<any>): Promise<string> {
                 if (offset == 0 || bufferMap[name] === undefined) {
                     return await promise.then(value => {
