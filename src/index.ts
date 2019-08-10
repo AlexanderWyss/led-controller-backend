@@ -94,6 +94,8 @@ function genUuid(name: string) {
     return uuidGen(name, uuid);
 }
 
+const bufferMap: any = {};
+
 for (const control of controls) {
     router.get(control.name, (req: any, res: any, next: any) => {
         control.operation(req.query).then((returnValue) => res.send(returnValue));
@@ -112,10 +114,21 @@ for (const control of controls) {
         onReadRequest: (offset, callback) => {
             console.log('test2');
             console.log(offset);
-            control.operation({}).then((value) => {
-                const result = JSON.stringify(value);
-                console.log(result);
-                return callback(Characteristic.RESULT_SUCCESS, Buffer.from(result));
+
+            async function manageBuffer(offset: number, callback: (result: number, data?: Buffer) => void, name: string, promise: Promise<any>): Promise<string> {
+                if (offset == 0 || bufferMap[name] === undefined) {
+                    return await promise.then(value => {
+                        bufferMap[name] = JSON.stringify(value);
+                        return bufferMap[name];
+                    });
+                } else {
+                    return (<string>bufferMap[name]).substr(offset);
+                }
+            }
+
+            manageBuffer(offset, callback, control.name, control.operation({})).then(value => {
+                console.log(value);
+                return callback(Characteristic.RESULT_SUCCESS, Buffer.from(value));
             });
         }
     }));
