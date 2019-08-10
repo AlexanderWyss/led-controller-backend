@@ -103,6 +103,7 @@ for (const control of controls) {
         uuid: genUuid(control.name),
         properties: ["read", "write"],
         onWriteRequest: (data, offset, withoutResponse, callback) => {
+            console.log(data.toString());
             control.operation(JSON.parse(data.toString())).then((empty) => callback(Characteristic.RESULT_SUCCESS));
         },
         onReadRequest: (offset, callback) => {
