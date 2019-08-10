@@ -19,4 +19,7 @@ export class HttpManager extends Manager {
             operation.execute(req.query);
         });
     }
+
+    protected finalize(): void {
+    }
 }
