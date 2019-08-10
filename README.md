@@ -14,7 +14,7 @@ Start led-controller-backend `sudo npm start`
 
 For production use `sudo node led-controller-backend/bin/www`
 
-When stared from crontab is an inital `sleep 5`required and it must be the roots crontab
+When started from crontab an inital `sleep 5` is required and it must be the roots crontab
 
 Default Port: 3000
 
