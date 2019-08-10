@@ -8,7 +8,7 @@ Clone repo into a Directory next to the [Frontend](https://github.com/AlexanderW
 
 `npm i`
 
-Run `ionic build` in LED-Controller
+Run `ionic build --prod` in LED-Controller
 
 Start led-controller-backend `sudo npm start`
 
