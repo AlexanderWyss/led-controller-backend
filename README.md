@@ -11,3 +11,7 @@ Clone repo into a Directory next to the [Frontend](https://github.com/AlexanderW
 Run `ionic build` in LED-Controller
 
 Start led-controller-backend `sudo npm start`
+
+Default Port: 3000
+
+Port can be set via the env variable `Port`
