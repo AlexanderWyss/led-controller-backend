@@ -1,3 +1,4 @@
+import {Characteristic, PrimaryService} from "@abandonware/bleno";
 import {ArduinoPort} from "./ArduinoPort";
 import {ChaseController} from "./ChaseController";
 import {GeneralController} from "./GeneralController";
@@ -8,12 +9,10 @@ import {RunningController} from "./RunningController";
 import {SparkleController} from "./SparkleController";
 import {StrobeController} from "./StrobeController";
 import {WaveController} from "./WaveController";
-import {Characteristic, PrimaryService} from '@abandonware/bleno';
 
-const bleno = require('@abandonware/bleno');
-const uuidGen = require('uuid/v5');
-const uuid = 'de7daa74-9126-494c-b277-9ca4c0944c7e';
-
+const bleno = require("@abandonware/bleno");
+const uuidGen = require("uuid/v5");
+const uuid = "de7daa74-9126-494c-b277-9ca4c0944c7e";
 
 const express = require("express");
 const router = express.Router();
@@ -102,38 +101,37 @@ for (const control of controls) {
     console.log(control.name + " : " + genUuid(control.name));
     characteristics.push(new Characteristic({
         uuid: genUuid(control.name),
-        properties: ['read', 'write'],
+        properties: ["read", "write"],
         onWriteRequest: (data, offset, withoutResponse, callback) => {
-            control.operation(JSON.parse(data.toString())).then(empty => callback(Characteristic.RESULT_SUCCESS));
+            control.operation(JSON.parse(data.toString())).then((empty) => callback(Characteristic.RESULT_SUCCESS));
         },
         onReadRequest: (offset, callback) => {
-            control.operation({}).then(value => callback(Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(value))));
+            control.operation({}).then((value) => callback(Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(value))));
         }
     }));
 }
 
 const primaryService = new PrimaryService({
-    uuid: uuid,
-    characteristics: characteristics
+    uuid,
+    characteristics
 });
 
+bleno.on("stateChange", (state: any) => {
+    console.log("on -> stateChange: " + state);
 
-bleno.on('stateChange', (state: any) => {
-    console.log('on -> stateChange: ' + state);
-
-    if (state === 'poweredOn') {
-        bleno.startAdvertising('LED', [primaryService.uuid]);
+    if (state === "poweredOn") {
+        bleno.startAdvertising("LED", [primaryService.uuid]);
     } else {
         bleno.stopAdvertising();
     }
 });
 
-bleno.on('advertisingStart', (error: any) => {
-    console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
+bleno.on("advertisingStart", (error: any) => {
+    console.log("on -> advertisingStart: " + (error ? "error " + error : "success"));
 
     if (!error) {
         bleno.setServices([primaryService], (error: any) => {
-            console.log('setServices: ' + (error ? 'error ' + error : 'success'));
+            console.log("setServices: " + (error ? "error " + error : "success"));
         });
     }
 });

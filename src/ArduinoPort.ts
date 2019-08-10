@@ -14,7 +14,6 @@ export class ArduinoPort {
     public port: SerialPort;
 
     private constructor() {
-        console.log("constr");
         this.createPort();
     }
 
