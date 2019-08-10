@@ -1,4 +1,4 @@
-import {ArduinoPort} from "./ArduinoPort";
+import {ArduinoPort} from "../ArduinoPort";
 import {LEDController} from "./LEDController";
 
 export class GeneralController extends LEDController {

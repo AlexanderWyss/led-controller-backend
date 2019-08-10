@@ -1,4 +1,4 @@
-import {ArduinoPort} from "./ArduinoPort";
+import {ArduinoPort} from "../ArduinoPort";
 
 export abstract class LEDController {
 

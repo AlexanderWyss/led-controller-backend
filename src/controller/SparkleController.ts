@@ -1,4 +1,4 @@
-import {ArduinoPort} from "./ArduinoPort";
+import {ArduinoPort} from "../ArduinoPort";
 import {PatternController} from "./PatternController";
 
 export class SparkleController extends PatternController {
