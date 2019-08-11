@@ -3,15 +3,15 @@ import {PatternController} from "./PatternController";
 
 export class ChaseController extends PatternController {
 
-    constructor(arduinoPort: ArduinoPort) {
-        super("Chase", arduinoPort);
-    }
+  constructor(arduinoPort: ArduinoPort) {
+    super("Chase", arduinoPort);
+  }
 
-    public setFromQuery(query: any): boolean {
-        return this.setSpeed(query.speed);
-    }
+  public setFromQuery(query: any): boolean {
+    return this.setSpeed(query.speed);
+  }
 
-    public setSpeed(number: number): boolean {
-        return this.setNumber("Speed", number);
-    }
+  public setSpeed(number: number): boolean {
+    return this.setNumber("Speed", number);
+  }
 }

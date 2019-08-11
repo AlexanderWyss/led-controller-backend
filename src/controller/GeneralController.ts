@@ -3,24 +3,24 @@ import {LEDController} from "./LEDController";
 
 export class GeneralController extends LEDController {
 
-    constructor(arduinoPort: ArduinoPort) {
-        super(arduinoPort);
-    }
+  constructor(arduinoPort: ArduinoPort) {
+    super(arduinoPort);
+  }
 
-    public stop(): void {
-        this.sendCommand("!NeoStop");
-    }
+  public stop(): void {
+    this.sendCommand("!NeoStop");
+  }
 
-    public allOff(): void {
-        this.stop();
-        this.sendCommand("!NeoAllOff");
-    }
+  public allOff(): void {
+    this.stop();
+    this.sendCommand("!NeoAllOff");
+  }
 
-    public setNumberOfLeds(number: number) {
-        this.sendCommand("!NeoNum" + number);
-    }
+  public setNumberOfLeds(number: number) {
+    this.sendCommand("!NeoNum" + number);
+  }
 
-    public setPin(pin: string) {
-        this.sendCommand("!NeoPin" + pin);
-    }
+  public setPin(pin: string) {
+    this.sendCommand("!NeoPin" + pin);
+  }
 }
