@@ -2,6 +2,8 @@ import {ArduinoPort} from "../ArduinoPort";
 import {LEDController} from "./LEDController";
 
 export class GeneralController extends LEDController {
+  private numberOfLeds: number;
+  private pin: string;
 
   constructor(arduinoPort: ArduinoPort) {
     super(arduinoPort);
@@ -17,10 +19,20 @@ export class GeneralController extends LEDController {
   }
 
   public setNumberOfLeds(number: number) {
+    this.numberOfLeds = number;
     this.sendCommand("!NeoNum" + number);
   }
 
+  public getNumberOfLeds(): number {
+    return this.numberOfLeds;
+  }
+
   public setPin(pin: string) {
+    this.pin = pin;
     this.sendCommand("!NeoPin" + pin);
+  }
+
+  public getPin(): string {
+    return this.pin;
   }
 }

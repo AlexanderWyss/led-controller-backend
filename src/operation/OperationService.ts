@@ -1,4 +1,5 @@
 import {AllOffOperation} from "./AllOffOperation";
+import {LedsGetOperation} from "./LedsGetOperation";
 import {LedsSetOperation} from "./LedsSetOperation";
 import {Operation} from "./Operation";
 import {OptionsOperation} from "./OptionsOperation";
@@ -11,8 +12,8 @@ import {StopOperation} from "./StopOperation";
 export class OperationService {
   public static getOperations(): Operation[] {
     return [
-      new AllOffOperation(), new LedsSetOperation(), new OptionsOperation(), new PinSetOperation(),
-      new SerialportGetOperation(), new SerialportSetOperation(), new StartOperation(), new StopOperation()
+      new AllOffOperation(), new LedsSetOperation(), new LedsGetOperation(), new OptionsOperation(),
+      new PinSetOperation(), new SerialportGetOperation(), new SerialportSetOperation(), new StartOperation(), new StopOperation()
     ];
   }
 }
