@@ -3,7 +3,7 @@ import {LEDController} from "./LEDController";
 
 export class GeneralController extends LEDController {
   private numberOfLeds = 13;
-  private pin = "2";
+  private pin = "3";
 
   constructor(arduinoPort: ArduinoPort) {
     super(arduinoPort);
