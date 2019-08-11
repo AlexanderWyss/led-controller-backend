@@ -19,7 +19,7 @@ export class BluetoothManager extends Manager {
             uuid,
             properties: ["read"],
             onReadRequest: (offset, callback) => {
-                this.manageBuffer(offset, operation.name, operation.execute({})).then((value) => {
+                return this.manageBuffer(offset, operation.name, operation).then((value) => {
                     console.log(value);
                     return callback(Characteristic.RESULT_SUCCESS, Buffer.from(value));
                 });
@@ -66,9 +66,10 @@ export class BluetoothManager extends Manager {
         });
     }
 
-    private async manageBuffer(offset: number, name: string, promise: Promise<any>): Promise<string> {
+    private async manageBuffer(offset: number, name: string, operation: Operation): Promise<string> {
+        console.log("Buffer: offset:" + offset + ' name: ' + name);
         if (offset == 0 || this.bufferMap[name] === undefined) {
-            return await promise.then((value) => {
+            return await operation.execute({}).then((value) => {
                 this.bufferMap[name] = JSON.stringify(value);
                 return this.bufferMap[name];
             });
