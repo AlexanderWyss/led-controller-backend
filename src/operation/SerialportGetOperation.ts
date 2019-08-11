@@ -9,9 +9,7 @@ export class SerialportGetOperation extends Operation {
   public async execute(): Promise<any> {
     const ports = await this.arduinoPort().getSerialPorts();
     return {
-      serialports: ports.map(port => {
-        port.comName;
-      }), selectedPort: this.arduinoPort().selectedPort
+      serialports: ports.map(port => port.comName), selectedPort: this.arduinoPort().selectedPort
     };
   }
 }
