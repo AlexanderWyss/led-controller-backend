@@ -6,9 +6,7 @@
 
 var app = require('../dist/app');
 var debug = require('debug')('led-controller-backend:server');
-var http = require('https');
-var fs = require('fs');
-
+var http = require('http');
 
 /**
  * Get port from environment and store in Express.
@@ -21,11 +19,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer({
-        key: fs.readFileSync('../../../server.key'),
-        cert: fs.readFileSync('../../../server.cert')
-    },
-    app);
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
