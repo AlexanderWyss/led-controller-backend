@@ -1,4 +1,6 @@
 import SerialPort = require("serialport");
+import {PortInfo} from 'serialport';
+import {BluetoothManager} from './manager/BluetoothManager';
 
 export class ArduinoPort {
 
@@ -34,8 +36,12 @@ export class ArduinoPort {
         this.createPort();
     }
 
-    public getSerialPorts(): Promise<SerialPort.PortInfo[]> {
-        return SerialPort.list();
+    public getSerialPorts(): Promise<PortInfo[]> {
+        return this.filterPorts(SerialPort.list());
+    }
+
+    private filterPorts(ports: Promise<PortInfo[]>) {
+        return ports.then(ports => ports.filter(port => port.comName !== BluetoothManager.getBluetoothSerialPort()));
     }
 
     private checkPort() {

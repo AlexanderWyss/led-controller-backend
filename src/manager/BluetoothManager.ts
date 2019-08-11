@@ -83,4 +83,8 @@ export class BluetoothManager extends Manager {
         console.log(operation.name + " : " + uuid);
         return uuid;
     }
+
+    public static getBluetoothSerialPort() {
+        return '/dev/ttyAMA0';
+    }
 }
