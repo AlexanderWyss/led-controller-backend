@@ -29,11 +29,7 @@ export class ArduinoPort {
   }
 
   public setPort(portName: string) {
-    if (portName === "autoselect") {
-      portName = undefined;
-    }
-    this.selectedPort = portName;
-    this.createPort();
+    this.createPort(portName);
   }
 
   public getSerialPorts(): Promise<PortInfo[]> {
@@ -50,18 +46,21 @@ export class ArduinoPort {
     }
   }
 
-  private createPort() {
+  private createPort(portName = this.selectedPort) {
     this.closePort();
-    if (this.selectedPort !== undefined) {
-      this.port = this.createSerialPort(this.selectedPort);
-    } else {
+    if (portName === "autoselect" || !portName) {
       SerialPort.list().then(ports => {
         console.debug(ports);
         const filteredPorts = ports.filter(port => port.productId === "7523");
         if (filteredPorts.length > 0) {
-          this.port = this.createSerialPort(filteredPorts[0].comName);
+          let autoselectedPort = filteredPorts[0].comName;
+          this.selectedPort = autoselectedPort;
+          this.port = this.createSerialPort(autoselectedPort);
         }
       });
+    } else {
+      this.selectedPort = portName;
+      this.port = this.createSerialPort(portName);
     }
   }
 
@@ -72,7 +71,7 @@ export class ArduinoPort {
       console.error(error);
       if (this.port.isOpen) {
         this.port.close();
-        this.createPort();
+        this.createPort(portName);
       }
     });
     return port;
