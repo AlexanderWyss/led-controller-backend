@@ -4,19 +4,19 @@ import {BluetoothManager} from "./manager/BluetoothManager";
 
 export class ArduinoPort {
 
+  public static get(): ArduinoPort {
+    if (!ArduinoPort.PORT) {
+      ArduinoPort.PORT = new ArduinoPort();
+    }
+    return ArduinoPort.PORT;
+  }
+
   private static PORT: ArduinoPort;
   public selectedPort: string;
   public port: SerialPort;
 
   private constructor() {
     this.createPort();
-  }
-
-  public static get(): ArduinoPort {
-    if (!ArduinoPort.PORT) {
-      ArduinoPort.PORT = new ArduinoPort();
-    }
-    return ArduinoPort.PORT;
   }
 
   public write(command: string) {
@@ -53,7 +53,7 @@ export class ArduinoPort {
         console.debug(ports);
         const filteredPorts = ports.filter(port => port.productId === "7523");
         if (filteredPorts.length > 0) {
-          let autoselectedPort = filteredPorts[0].comName;
+          const autoselectedPort = filteredPorts[0].comName;
           this.selectedPort = autoselectedPort;
           this.port = this.createSerialPort(autoselectedPort);
         }

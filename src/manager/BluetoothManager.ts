@@ -5,16 +5,16 @@ import {Manager} from "./Manager";
 const uuidGen = require("uuid/v5");
 
 export class BluetoothManager extends Manager {
+
+  public static getBluetoothSerialPort() {
+    return "/dev/ttyAMA0";
+  }
   private static UUID = "de7daa74-9126-494c-b277-9ca4c0944c7e";
   private characteristics: Characteristic[] = [];
   private bufferMap: any = {};
 
   constructor(private bleno: Bleno) {
     super();
-  }
-
-  public static getBluetoothSerialPort() {
-    return "/dev/ttyAMA0";
   }
 
   public read(operation: Operation): void {
