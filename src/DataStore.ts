@@ -1,18 +1,14 @@
-import {Store} from "data-store";
+const Store = require("data-store");
+const store = new Store("LED");
 
 export class DataStore {
-  private store: Store;
-
-  constructor() {
-    this.store = new Store("LED");
-  }
 
   public set(key: string, value: any) {
-    this.store.set(key, value);
+    store.set(key, value);
   }
 
 
   public get(key: string, defaultValue: any) {
-    return this.store.get(key, defaultValue);
+    return store.get(key, defaultValue);
   }
 }
