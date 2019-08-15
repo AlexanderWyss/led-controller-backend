@@ -1,10 +1,10 @@
 const Store = require("data-store");
-const store = new Store("LED");
+const store = new Store("LED", {path: ""});
 
 export class DataStore {
 
   constructor() {
-    console.log(store.path);
+    console.log("Store path: " + store.path);
   }
 
   public set(key: string, value: any) {
