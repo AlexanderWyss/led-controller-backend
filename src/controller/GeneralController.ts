@@ -1,12 +1,19 @@
 import {ArduinoPort} from "../ArduinoPort";
+import {DataStore} from "../DataStore";
 import {LEDController} from "./LEDController";
 
 export class GeneralController extends LEDController {
   private numberOfLeds = 13;
   private pin = "3";
+  private static NUMBER_OF_LEDS = "numberOfLeds";
+  private static PIN = "pin";
+  private store: DataStore;
 
   constructor(arduinoPort: ArduinoPort) {
     super(arduinoPort);
+    this.store = new DataStore();
+    this.numberOfLeds = this.store.get(GeneralController.NUMBER_OF_LEDS, 13);
+    this.pin = this.store.get(GeneralController.PIN, "3");
   }
 
   public stop(): Promise<void> {
@@ -21,6 +28,7 @@ export class GeneralController extends LEDController {
 
   public setNumberOfLeds(number: number) {
     this.numberOfLeds = number;
+    this.store.set(GeneralController.NUMBER_OF_LEDS, number);
     this.sendCommand("!NeoNum" + number);
   }
 
@@ -30,6 +38,7 @@ export class GeneralController extends LEDController {
 
   public setPin(pin: string) {
     this.pin = pin;
+    this.store.set(GeneralController.PIN, pin);
     this.sendCommand("!NeoPin" + pin);
   }
 
