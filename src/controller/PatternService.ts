@@ -4,6 +4,7 @@ import {RainbowController} from "./RainbowController";
 import {RiderController} from "./RiderController";
 import {RunningController} from "./RunningController";
 import {SparkleController} from "./SparkleController";
+import {StripController} from "./StripController";
 import {StrobeController} from "./StrobeController";
 import {WaveController} from "./WaveController";
 
@@ -12,7 +13,7 @@ export class PatternService {
     return [
       new WaveController(arduinoPort), new RainbowController(arduinoPort), new RiderController(arduinoPort),
       new StrobeController(arduinoPort), new RunningController(arduinoPort), new ChaseController(arduinoPort),
-      new SparkleController(arduinoPort)
+      new SparkleController(arduinoPort), new StripController(arduinoPort)
     ];
   }
 }
