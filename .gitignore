@@ -1,5 +1,5 @@
 /node_modules/
 /dist/
 !/dist/public/files/
-!/dist/public/files/*/
+!/dist/public/files/*
 /.idea/
