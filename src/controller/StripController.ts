@@ -13,10 +13,8 @@ export class StripController extends PatternController {
   // Override
   public start(): void {
     this.ready().then(() => {
-      this.generalController.allOff();
-      this.ready().then(() => {
-        this.sendCommand("!" + this.name + "SetStrip");
-      });
+      this.generalController.stop();
+      this.sendCommand("!" + this.name + "SetStrip");
     });
   }
 

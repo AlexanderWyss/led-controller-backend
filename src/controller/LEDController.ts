@@ -30,7 +30,7 @@ export abstract class LEDController {
     }
   }
 
-  private async commandFromQueue() {
+  private async commandFromQueue(): Promise<void> {
     while (this.queue.length > 0) {
       const command = this.queue.shift();
       console.debug(command);
