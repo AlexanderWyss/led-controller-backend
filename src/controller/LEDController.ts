@@ -19,6 +19,7 @@ export abstract class LEDController {
   }
 
   protected sendCommand(command: string) {
+    console.log("push" + command);
     this.queue.push(command);
     if (!this.currentCommand) {
       this.currentCommand = this.commandFromQueue();
