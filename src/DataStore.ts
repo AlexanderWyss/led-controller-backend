@@ -1,20 +1,21 @@
 const Store = require("data-store");
-const store = new Store("LED", {path: ""});
 
 export class DataStore {
+  private store: any;
 
   constructor() {
-    console.log("Store path: " + store.path);
+    this.store = new Store("LED");
+    console.log("Store path: " + this.store.path);
   }
 
   public set(key: string, value: any) {
     console.log("Set to Datastore: " + key + " : " + value);
-    store.set(key, value);
+    this.store.set(key, value);
   }
 
 
   public get(key: string, defaultValue: any) {
-    const value = store.get(key, defaultValue);
+    const value = this.store.get(key, defaultValue);
     console.log("Load from Datastore: " + key + " : " + value);
     return value;
   }
