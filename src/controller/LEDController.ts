@@ -12,8 +12,10 @@ export abstract class LEDController {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  public ready(): Promise<void> {
-    return this.currentCommand;
+  public async ready(): Promise<void> {
+    if (this.currentCommand) {
+      return this.currentCommand;
+    }
   }
 
   protected sendCommand(command: string) {
