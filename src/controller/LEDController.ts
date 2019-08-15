@@ -19,7 +19,6 @@ export abstract class LEDController {
   }
 
   protected sendCommand(command: string) {
-    console.log("push" + command);
     this.queue.push(command);
     if (!this.currentCommand) {
       this.currentCommand = this.commandFromQueue();
@@ -29,6 +28,7 @@ export abstract class LEDController {
           this.currentCommand = undefined;
         });
     }
+    return this.currentCommand;
   }
 
   private async commandFromQueue(): Promise<void> {

@@ -9,13 +9,14 @@ export class GeneralController extends LEDController {
     super(arduinoPort);
   }
 
-  public stop(): void {
-    this.sendCommand("!NeoStop");
+  public stop(): Promise<void> {
+    return this.sendCommand("!NeoStop");
   }
 
-  public allOff(): void {
-    this.stop();
-    this.sendCommand("!NeoAllOff");
+  public allOff(): Promise<void> {
+    return this.stop().then(() => {
+      return this.sendCommand("!NeoAllOff");
+    });
   }
 
   public setNumberOfLeds(number: number) {
