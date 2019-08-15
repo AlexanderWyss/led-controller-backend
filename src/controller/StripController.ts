@@ -1,14 +1,18 @@
 import {ArduinoPort} from "../ArduinoPort";
+import {GeneralController} from "./GeneralController";
 import {PatternController} from "./PatternController";
 
 export class StripController extends PatternController {
+  private readonly generalController: GeneralController;
 
   constructor(arduinoPort: ArduinoPort) {
     super("Neo", arduinoPort);
+    this.generalController = new GeneralController(arduinoPort);
   }
 
   // Override
   public start(): void {
+    this.generalController.allOff();
     this.sendCommand("!" + this.name + "SetStrip");
   }
 
