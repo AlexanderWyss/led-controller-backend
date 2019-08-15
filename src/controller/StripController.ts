@@ -12,8 +12,10 @@ export class StripController extends PatternController {
 
   // Override
   public start(): void {
-    this.generalController.allOff();
-    this.sendCommand("!" + this.name + "SetStrip");
+    this.ready().then(() => {
+      this.generalController.allOff();
+      this.sendCommand("!" + this.name + "SetStrip");
+    });
   }
 
   public setFromQuery(query: any): boolean {

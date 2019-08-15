@@ -12,14 +12,19 @@ export abstract class LEDController {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  public ready(): Promise<void> {
+    return this.currentCommand;
+  }
+
   protected sendCommand(command: string) {
     this.queue.push(command);
     if (!this.currentCommand) {
       this.currentCommand = this.commandFromQueue();
-      this.currentCommand.then(() => this.currentCommand = undefined).catch(error => {
-        console.log(error);
-        this.currentCommand = undefined;
-      });
+      this.currentCommand
+        .catch(error => console.log(error))
+        .finally(() => {
+          this.currentCommand = undefined;
+        });
     }
   }
 
