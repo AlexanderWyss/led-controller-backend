@@ -10,6 +10,7 @@ export class AuthService {
     const key = DataStore.get().get("authKey", undefined);
     if (key) {
       this.hash = hashString(key);
+      console.log("Use Key with hash: " + this.hash);
     }
   }
 
@@ -22,7 +23,7 @@ export class AuthService {
 
   public validate(query: any): boolean {
     if (this.hash) {
-      return Otplib.authenticator.check(query.t, this.hash);
+      return Otplib.totp.check(query.t, this.hash);
     }
     return true;
   }
