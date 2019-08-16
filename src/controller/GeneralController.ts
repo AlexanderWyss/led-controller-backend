@@ -11,7 +11,7 @@ export class GeneralController extends LEDController {
 
   constructor(arduinoPort: ArduinoPort) {
     super(arduinoPort);
-    this.store = new DataStore();
+    this.store = DataStore.get();
     this.numberOfLeds = this.store.get(GeneralController.NUMBER_OF_LEDS, 13);
     this.pin = this.store.get(GeneralController.PIN, "3");
   }

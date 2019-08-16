@@ -1,0 +1,29 @@
+import hashString from "object-hash";
+import * as Otplib from "otplib";
+import {DataStore} from "./DataStore";
+
+export class AuthService {
+  private static AUTH_SERVICE: AuthService;
+  private readonly hash: string;
+
+  private constructor() {
+    const key = DataStore.get().get("authKey", undefined);
+    if (key) {
+      this.hash = hashString(key);
+    }
+  }
+
+  public static get(): AuthService {
+    if (!AuthService.AUTH_SERVICE) {
+      AuthService.AUTH_SERVICE = new AuthService();
+    }
+    return AuthService.AUTH_SERVICE;
+  }
+
+  public validate(query: any): boolean {
+    if (this.hash) {
+      return Otplib.authenticator.check(query.t, this.hash);
+    }
+    return true;
+  }
+}
