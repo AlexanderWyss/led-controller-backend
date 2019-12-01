@@ -31,12 +31,12 @@ export class HttpManager extends Manager {
     });
   }
 
+  protected finalize(): void {
+    // noop
+  }
+
   private send401(res: any) {
     res.status(401);
     res.send("You shall not pass");
-  }
-
-  protected finalize(): void {
-    // noop
   }
 }

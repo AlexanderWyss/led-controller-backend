@@ -3,6 +3,13 @@ import * as Otplib from "otplib";
 import {DataStore} from "./DataStore";
 
 export class AuthService {
+
+  public static get(): AuthService {
+    if (!AuthService.AUTH_SERVICE) {
+      AuthService.AUTH_SERVICE = new AuthService();
+    }
+    return AuthService.AUTH_SERVICE;
+  }
   private static AUTH_SERVICE: AuthService;
   private readonly hash: string;
 
@@ -12,13 +19,6 @@ export class AuthService {
       this.hash = hashString(key);
       console.log("Use Key with hash: " + this.hash);
     }
-  }
-
-  public static get(): AuthService {
-    if (!AuthService.AUTH_SERVICE) {
-      AuthService.AUTH_SERVICE = new AuthService();
-    }
-    return AuthService.AUTH_SERVICE;
   }
 
   public validate(query: any): boolean {
