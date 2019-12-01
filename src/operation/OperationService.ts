@@ -1,4 +1,7 @@
 import {AllOffOperation} from "./AllOffOperation";
+import {CronAddOperation} from "./CronAddOperation";
+import {CronGetOperation} from "./CronGetOperation";
+import {CronRemoveOperation} from "./CronRemoveOperation";
 import {LedsGetOperation} from "./LedsGetOperation";
 import {LedsSetOperation} from "./LedsSetOperation";
 import {Operation} from "./Operation";
@@ -9,9 +12,6 @@ import {SerialportGetOperation} from "./SerialportGetOperation";
 import {SerialportSetOperation} from "./SerialportSetOperation";
 import {StartOperation} from "./StartOperation";
 import {StopOperation} from "./StopOperation";
-import {CronAddOperation} from "./CronAddOperation";
-import {CronGetOperation} from "./CronGetOperation";
-import {CronRemoveOperation} from "./CronRemoveOperation";
 
 export class OperationService {
   public static getOperations(): Operation[] {
