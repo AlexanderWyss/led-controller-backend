@@ -60,6 +60,7 @@ export class GeneralController extends LEDController {
     }
 
     public addCronJob(cron: Cron) {
+        console.log(cron);
         this.scheduleJob(cron);
         const cronJobs = this.getCronJobs();
         cronJobs.push(cron);
