@@ -62,16 +62,23 @@ export class GeneralController extends LEDController {
 
     public addCronJob(cron: Cron) {
         this.scheduleJob(cron);
-        this.getCronJobs().push(cron);
+        let cronJobs = this.getCronJobs();
+        cronJobs.push(cron);
+        this.setCronJobs(cronJobs);
     }
 
     public getCronJobs(): Cron[] {
         return this.store.get(GeneralController.CRON, []);
     }
 
+    public setCronJobs(cronJobs: Cron[]) {
+        this.store.set(GeneralController.CRON, cronJobs);
+    }
+
     public removeCronJob(cron: Cron) {
       const cronJobs = this.getCronJobs();
-      cronJobs.splice(cronJobs.indexOf(cron), 1);
+      this.setCronJobs(cronJobs.splice(cronJobs.indexOf(cron), 1));
+
     }
 
     private scheduleJob(cronJob: Cron) {
